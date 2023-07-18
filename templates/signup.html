@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SignUp</title>
+</head>
+<body>
+	<h1 align="center">注册</h1>
+	<hr style="height:2px;border:none;border-top:10px groove skyblue;width: 50%;" >
+	<div align="center">
+	<form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+		{{ user_form.as_p }}
+    	{{ profile_form.as_p }}
+		<button type="submit">注册</button> 
+	</form>
+	</div>
+
+</body>
+</html>

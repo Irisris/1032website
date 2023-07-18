@@ -1,0 +1,181 @@
+<!-- article_detail_nochapter.html 查看单篇文章内容-->
+
+<div><p style="padding: 20 20px; "> <a href="javascript:history.back()">返回</a></p></div>
+<!-- 标题 -->
+<div style="text-align: center;">
+    <div>
+        <h1 style="display: inline-block; margin-top: 20px; margin-bottom: 5px; text-align:center; font-weight: bolder;"> {{ article.title }}</h1>
+    </div>
+    <div>
+        <h2 style="display: inline-block; margin-top: 0px; margin-bottom: 10px; text-align:center; font-weight: normal; font-size: 20px;"> {{ article.user.username }}</h2>
+    </div>
+    <hr style="width: 50%; border:none;border-top:1.5px solid rgb(2, 2, 2); margin: 0 auto;">
+</div>
+<!-- summary -->
+<div style="text-align: center;">
+    <div>
+        <h2 style="display: inline-block; margin-top: 8px; margin-bottom: 5px; text-align:center; font-weight: normal; font-size: 18px;">简介</h2>
+    </div>
+    <div>
+        <p style="display: inline-block; margin-top: 0px; margin-bottom: 5px; text-align:center; font-weight: normal; font-size: 20px;"> {{ article.summary }}</p>
+    </div>
+    <hr style="width: 50%; border:none;border-top:1.5px solid rgb(2, 2, 2); margin: 0 auto;">
+</div>
+
+
+
+<!-- 正文 -->
+<p style="padding: 0 20px;">{{ article.body }}</p>
+
+
+<!-- 图片 -->
+{% for image in article.images.all %}
+<div style="text-align: center;">
+    <img src="{{ image.image.url }}" style="width: 80%; object-fit: cover; margin: 0 auto">
+    <hr style="width: 50%; border:none;border-top:3px solid rgb(250, 250, 250); margin: 0 auto;">
+</div>
+{% endfor %}
+
+<!-- 添加收藏 -->
+<button id="favorite-button" data-url="{% url 'toggle_favorite' article.id %}">
+    {% if request.user.userprofile in article.favorited_by.all %}
+    取消收藏
+    {% else %}
+    收藏
+    {% endif %}
+</button>
+
+<script>
+document.getElementById('favorite-button').addEventListener('click', function() {
+    var button = this;
+    fetch(button.getAttribute('data-url'), {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.is_favorited) {
+            button.innerText = '取消收藏';
+        } else {
+            button.innerText = '收藏';
+        }
+    });
+});
+</script>
+
+<!-- 添加点赞 -->
+<button id="like-button" data-url="{% url 'toggle_like' article.id %}">
+    {% if request.user.userprofile in article.liked_by.all %}
+    取消点赞
+    {% else %}
+    点赞
+    {% endif %}
+</button>
+
+<script>
+document.getElementById('like-button').addEventListener('click', function() {
+    var button = this;
+    fetch(button.getAttribute('data-url'), {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.is_favorited) {
+            button.innerText = '取消点赞';
+        } else {
+            button.innerText = '点赞';
+        }
+    });
+});
+</script>
+
+<!-- 添加点踩 -->
+<button id="dislike-button" data-url="{% url 'toggle_dislike' article.id %}">
+    {% if request.user.userprofile in article.disliked_by.all %}
+    取消不喜欢
+    {% else %}
+    不喜欢
+    {% endif %}
+</button>
+
+<script>
+document.getElementById('dislike-button').addEventListener('click', function() {
+    var button = this;
+    fetch(button.getAttribute('data-url'), {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.is_disliked) {
+            button.innerText = '取消不喜欢';
+        } else {
+            button.innerText = '不喜欢';
+        }
+    });
+});
+</script>
+
+<!-- 不能撤回 need modify -->
+<!-- 添加举报 -->
+<button id="like-button" data-url="{% url 'toggle_like' article.id %}">
+    {% if request.user.userprofile in article.liked_by.all %}
+    取消点赞
+    {% else %}
+    点赞
+    {% endif %}
+</button>
+
+<script>
+document.getElementById('like-button').addEventListener('click', function() {
+    var button = this;
+    fetch(button.getAttribute('data-url'), {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.is_favorited) {
+            button.innerText = '取消点赞';
+        } else {
+            button.innerText = '点赞';
+        }
+    });
+});
+</script>
+
+<!-- 添加评论 -->
+<form method="post">
+    {% csrf_token %}
+    <!-- 
+    <textarea name="{{ form.text.name }}">{{ form.text.value|default_if_none:'' }}</textarea>
+    form.text.name应该被替换为字段的名字 -->
+    {{ form.as_p }}
+    <button type="submit">发布评论</button>
+</form>
+
+<!-- 评论 -->
+{% for comment in comments %}
+    <div class="comment">
+        <h5>{{ comment.user.username }}</h5>
+        <p>{{ comment.text }}</p>
+        <p class="pub_date">{{ comment.pub_date }}</p>
+    </div>
+{% endfor %}

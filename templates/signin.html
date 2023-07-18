@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SignIn</title>
+</head>
+
+<div><p style="padding: 20 20px; "> <a href=/block_main>返回</a></p></div>
+<body>
+    <h1 style="text-align:center; font-weight: bolder;">登录</h1>
+	<hr style="height:2px;border:none;border-top:10px groove skyblue;width: 50%;" >
+	<div align="center">
+	<form  method="post">
+		{% csrf_token %}
+		{{Form.as_p}}
+		<input type="submit" value="登录" />
+	</form>
+        <div><p style="text-align: center;"> <a href=/signup>注册</a></p></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>EditProfile</title>
+</head>
+
+<div><p style="padding: 20 20px; "> <a href=/block_main>返回</a></p></div>
+
+<body>
+    <h2 style="display: inline-block; margin-top: 8px; margin-bottom: 5px; padding: 0 40px; font-weight: normal; font-size: 18px;">{{ userprofile.avatar }}       {{userprofile.user.username}}</h2>
+	<hr style="border:none;border-top:2px solid rgb(2, 2, 2);margin: 0 20;">
+	<div style="padding: 20 20px;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="更新">
+        </form>
+    </div>
+</body>
+</html>

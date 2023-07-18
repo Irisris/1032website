@@ -1,0 +1,40 @@
+<!-- 我的上传管理页面 -->
+<div><p style="padding: 20 20px; "> <a href=/homepage>返回</a></p></div>
+<!-- 标题 -->
+<div>
+    <h2 style="padding: 0 20px;display: inline-block; margin-top: 0px; text-align:center; font-weight: bolder;"> 我的上传</h2>
+    <hr style="border:none;border-top:2px solid rgb(2, 2, 2);margin: 0 20;">
+</div>
+
+<!-- 文章列表 -->
+<div>
+{% for article in articles %}
+    <h3 style="padding: 0 30px; margin-bottom: 3px;;"><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></h3>
+    <div style=" display: flex; justify-content: space-between; padding: 0 0px;">
+        <p style="padding: 0 50px;"> <a href="{% url 'editworks' article.id %}">编辑</a></p>
+        <p style="padding: 0 50px;font-size: 14;">{{ article.pub_date|date:"m/d/Y" }}</p>
+    </div>
+    <hr style="margin-bottom: 10px;border:none;border-top:1px solid rgb(209, 195, 195);margin: 0 20;">
+    
+    <!-- <h4 style="font-weight: normal;"> {{ article.user.username }}</h4>  -->
+{% endfor %}
+</div>
+
+<!-- 分页控件 -->
+<div style="text-align:center; margin-top: 10px;" class="pagination">
+    <span class="step-links">
+        {% if articles.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ articles.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ articles.number }} of {{ articles.paginator.num_pages }}
+        </span>
+
+        {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}">next</a>
+            <a href="?page={{ articles.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>

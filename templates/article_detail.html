@@ -1,0 +1,41 @@
+<!-- article_detail.html 查看单篇文章内容-->
+
+<div><p style="padding: 20 20px; "> <a href="javascript:history.back()">返回</a></p></div>
+<!-- 标题 -->
+<div style="text-align: center;">
+    <div>
+        <h1 style="display: inline-block; margin-top: 20px; margin-bottom: 5px; text-align:center; font-weight: bolder;"> {{ article.title }}</h1>
+    </div>
+    <div>
+        <h2 style="display: inline-block; margin-top: 0px; margin-bottom: 10px; text-align:center; font-weight: normal; font-size: 20px;"> {{ article.user.username }}</h2>
+    </div>
+    <hr style="width: 50%; border:none;border-top:1.5px solid rgb(2, 2, 2); margin: 0 auto;">
+</div>
+<!-- summary -->
+<div style="text-align: center;">
+    <div>
+        <h2 style="display: inline-block; margin-top: 8px; margin-bottom: 5px; text-align:center; font-weight: normal; font-size: 18px;">简介</h2>
+    </div>
+    <div>
+        <p style="display: inline-block; margin-top: 0px; margin-bottom: 5px; text-align:center; font-weight: normal; font-size: 20px;"> {{ article.summary }}</p>
+    </div>
+    <hr style="width: 50%; border:none;border-top:1.5px solid rgb(2, 2, 2); margin: 0 auto;">
+</div>
+
+
+<!-- 正文 -->
+<p style="padding: 0 20px;">{{ chapter_detail }}</p>
+{% if prev_order %}
+    <a href="{% url 'chapter_detail' article.id prev_order %}">上一章</a>
+{% endif %}
+{% if next_order %}
+    <a href="{% url 'chapter_detail' article.id next_order %}">下一章</a>
+{% endif %}
+
+<!-- 图片 -->
+{% for image in chapter.images.all %}
+<div style="text-align: center;">
+    <img src="{{ image.image.url }}" style="width: 80%; object-fit: cover; margin: 0 auto">
+    <hr style="width: 50%; border:none;border-top:3px solid rgb(250, 250, 250); margin: 0 auto;">
+</div>
+{% endfor %}

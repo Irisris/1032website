@@ -1,0 +1,40 @@
+<!-- 漫画文章标题列表页 -->
+
+<div><p style="padding: 20 20px; "> <a href=/block_main>返回</a></p></div>
+<!-- 标题 -->
+<div>
+    <h2 style="padding: 0 20px;display: inline-block; margin-top: 0px; text-align:center; font-weight: bolder;"> 漫画</h2>
+    <hr style="border:none;border-top:2px solid rgb(2, 2, 2);margin: 0 20;">
+</div>
+
+<!-- 文章列表 -->
+<div>
+{% for article in articles %}
+    <h3 style="padding: 0 30px;margin-top: 18px;margin-bottom: 5px;"><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></h3>
+    <div style="padding: 0 30px;">{{article.summary}}</div>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding: 0 30px;">
+        <div>by {{article.user.username}}</div>
+        <div style="font-size: 14; color:darkgrey(95, 89, 89);">{{ article.pub_date|date:"m/d/Y" }}</div>
+    </div>
+    <hr style="margin-bottom: 10px;border:none;border-top:1px solid rgb(209, 195, 195);margin: 0 20;">
+    <!-- <h4 style="font-weight: normal;"> {{ article.user.username }}</h4>  -->
+{% endfor %}
+</div>
+<!-- 分页控件 -->
+<div style="text-align:center; margin-top: 10px;" class="pagination">
+    <span class="step-links">
+        {% if articles.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ articles.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ articles.number }} of {{ articles.paginator.num_pages }}
+        </span>
+
+        {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}">next</a>
+            <a href="?page={{ articles.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>

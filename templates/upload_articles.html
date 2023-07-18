@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SignIn</title>
+</head>
+<div><p style="padding: 20 20px; margin-bottom: 0px;"> <a href=/block_main>返回</a></p></div>
+<body>
+    <h1 style="margin-top: 10px;text-align:center; font-weight: bolder;">上传</h1>
+	<hr style="height:2px;border:none;border-top:10px groove skyblue;width: 50%;" >
+	<div align="center">
+	<form  method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form.as_p}}
+		<input type="submit" value="上传作品" />
+	</form>
+        <div><p style="text-align: center;"> <a href=/block_main>返回</a></p></div>
+	</div>
+</body>
+</html>
